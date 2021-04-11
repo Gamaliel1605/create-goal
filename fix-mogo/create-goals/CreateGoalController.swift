@@ -54,6 +54,10 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet var timeView: UIView!
     @IBOutlet var timeLabel: UILabel!
     
+    //delete button
+    @IBOutlet weak var deleteButton: UIView!
+    @IBOutlet weak var buttonDelete: UIButton!
+    
     var arrayFrequency = ["Monthly", "Weekly"]
     var arrayMonth = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
     var weekArray = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -75,6 +79,7 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
         borderView()
         createDatePicker()
         setupView()
+        setupEdit()
         createTimePicker()
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -87,8 +92,12 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
         dateInput.placeholder = "1 January 2021"
         monthInput.placeholder = "IDR 1.000.000"
         timeInput.placeholder = "12:00"
-        freqInput.placeholder = "Monthly"
-        savingDateInput.placeholder = "2"
+        freqInput.text = "Monthly"
+        savingDateInput.text = "2"
+    }
+    
+    func setupEdit(){
+        deleteButton.isHidden = true
     }
     
     func borderView(){
