@@ -62,6 +62,12 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
     var timePicker = UIDatePicker()
     var pickerView = UIPickerView()
     var temp = 0
+    var isMonth = false
+    var isfreq = false
+    var isWeek = false
+    var freqSelection = ""
+    var monthSelection = ""
+    var weekSelection = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +79,7 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
         pickerView.delegate = self
         pickerView.dataSource = self
         freqInput.inputView = pickerView
+        savingDateInput.inputView = pickerView
     }
     
     func setupView(){
@@ -216,16 +223,60 @@ class CreateGoalController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arrayFrequency.count
+        if isMonth {
+            return arrayMonth.count
+        } else if isWeek {
+            return weekArray.count
+        } else {
+            return arrayFrequency.count
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return arrayFrequency[row]
+        if isMonth {
+            return arrayMonth[row]
+        } else if isWeek {
+            return weekArray[row]
+        } else {
+            return arrayFrequency[row]
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        freqInput.text = arrayFrequency[row]
-        freqInput.resignFirstResponder()
+        
+        if isMonth {
+            monthSelection = arrayMonth[row]
+            savingDateInput.text = arrayMonth[row]
+            savingDateInput.resignFirstResponder()
+            isfreq = true
+            isWeek = false
+            isMonth = false
+        } else if isWeek {
+            weekSelection = weekArray[row]
+            savingDateInput.text = weekArray[row]
+            savingDateInput.resignFirstResponder()
+            isfreq = true
+            isWeek = false
+            isMonth = false
+        } else {
+            freqSelection = arrayFrequency[row]
+            if arrayFrequency[row] == "Monthly" {
+                isMonth = true
+                isfreq = false
+                isWeek = false
+            } else {
+                isMonth = false
+                isfreq = false
+                isWeek = true
+            }
+            freqInput.text = arrayFrequency[row]
+            freqInput.resignFirstResponder()
+        }
+        setupPicker()
+    }
+    
+    private func setupPicker() {
+        pickerView.reloadAllComponents()
     }
     
 }
